@@ -13,9 +13,12 @@ export default function AdminLoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [authorizationError, setAuthorizationError] = useState(false);
+  const [configurationError, setConfigurationError] = useState(false);
 
   useEffect(() => {
-    setAuthorizationError(new URLSearchParams(window.location.search).get("error") === "not-authorized");
+    const errorCode = new URLSearchParams(window.location.search).get("error");
+    setAuthorizationError(errorCode === "not-authorized");
+    setConfigurationError(errorCode === "config");
   }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -111,6 +114,11 @@ export default function AdminLoginPage() {
           {authorizationError && (
             <p role="alert" className="rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-800">
               Your credentials are valid, but this account is not an admin yet. Add your user to the admin profile in Supabase.
+            </p>
+          )}
+          {configurationError && (
+            <p role="alert" className="rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-800">
+              Supabase is not configured correctly on this deployment. Add the public Supabase URL and anon key in Vercel, then redeploy.
             </p>
           )}
           {message && <p role="status" className="rounded-xl bg-[#edf3ed] px-3 py-2 text-sm text-[#2F5D3A]">{message}</p>}
