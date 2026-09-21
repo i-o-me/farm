@@ -1,12 +1,10 @@
 import { getPublishedPlants, getPlantBySlug, getFeaturedPlants, siteSettings as fallbackSettings } from "@/lib/data";
 import type { Category, Plant, SiteSettings } from "@/lib/types";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { hasValidSupabaseConfig } from "@/lib/supabase/client";
 
 function isConfigured() {
-  return Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  );
+  return hasValidSupabaseConfig();
 }
 
 type SupabasePlantRow = Omit<Plant, "category_name" | "images"> & {

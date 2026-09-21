@@ -30,7 +30,7 @@ export default function AdminLoginPage() {
     const supabase = createSupabaseClient();
 
     if (!supabase) {
-      setError("Add your Supabase URL and anon key to .env.local first.");
+      setError("Supabase configuration is invalid. Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY, then restart the server.");
       setIsSubmitting(false);
       return;
     }
